@@ -1,30 +1,30 @@
-import { TYPE_LABELS, TYPE_KEYS, MY, typeGroups } from './types.js?v=a204d77';
-import { buildPools } from './pools.js?v=a204d77';
-import { spin, rerollOne, setSlotType, resizeSlots, pickWord } from './pick.js?v=a204d77';
-import { parseType, toggleType, normalizeType, remapType } from './typekey.js?v=a204d77';
-import { initPanels } from './panels.js?v=a204d77';
-import { startSpin, stopReel, pressReel, isSpinning, allStopped, canEdit, canSave, autoStopDelays, restore, lockExcept } from './machine.js?v=a204d77';
-import { addTags, formatHits, hasCombo, isActive, tagsOf, toggleRating, viewHits } from './hits.js?v=a204d77';
-import { buildIndex, searchWords } from './search.js?v=a204d77';
-import { indexGraph, themeWords } from './theme.js?v=a204d77';
-import { createStore } from './store.js?v=a204d77';
-import { createCabinet } from './cabinet.js?v=a204d77';
-import { createSound } from './sound.js?v=a204d77';
-import { createOverlay } from './reels.js?v=a204d77';
-import { initScreens } from './screens.js?v=a204d77';
-import { initThemeScreen } from './themescreen.js?v=a204d77';
-import { effectiveWidth, fitWidth, widthAt, W_MIN } from './layout.js?v=a204d77';
-import { initGrips } from './grips.js?v=a204d77';
-import { initTypePanel } from './typepanel.js?v=a204d77';
-import { initHelp } from './help.js?v=a204d77';
-import { actionsFor, canonCode, keyHelp } from './keys.js?v=a204d77';
-import { applySlots } from './templates.js?v=a204d77';
-import { initKeyScreen } from './keyscreen.js?v=a204d77';
-import { initTemplateScreen } from './tplscreen.js?v=a204d77';
-import { createDefs } from './defs.js?v=a204d77';
-import { createTip } from './tip.js?v=a204d77';
-import { createTour } from './tour.js?v=a204d77';
-import { registerSw } from './pwa.js?v=a204d77';
+import { TYPE_LABELS, TYPE_KEYS, MY, typeGroups } from './types.js?v=cc00758';
+import { buildPools } from './pools.js?v=cc00758';
+import { spin, rerollOne, setSlotType, resizeSlots, pickWord } from './pick.js?v=cc00758';
+import { parseType, toggleType, normalizeType, remapType } from './typekey.js?v=cc00758';
+import { initPanels } from './panels.js?v=cc00758';
+import { startSpin, stopReel, pressReel, isSpinning, allStopped, canEdit, canSave, autoStopDelays, restore } from './machine.js?v=cc00758';
+import { hasCombo, isActive, toggleRating, viewHits } from './hits.js?v=cc00758';
+import { buildIndex, searchWords } from './search.js?v=cc00758';
+import { indexGraph, themeWords } from './theme.js?v=cc00758';
+import { createStore } from './store.js?v=cc00758';
+import { createCabinet } from './cabinet.js?v=cc00758';
+import { createSound } from './sound.js?v=cc00758';
+import { createOverlay } from './reels.js?v=cc00758';
+import { initScreens } from './screens.js?v=cc00758';
+import { initThemeScreen } from './themescreen.js?v=cc00758';
+import { effectiveWidth, fitWidth, widthAt, W_MIN } from './layout.js?v=cc00758';
+import { initGrips } from './grips.js?v=cc00758';
+import { initTypePanel } from './typepanel.js?v=cc00758';
+import { initHelp } from './help.js?v=cc00758';
+import { actionsFor, canonCode, keyHelp } from './keys.js?v=cc00758';
+import { applySlots } from './templates.js?v=cc00758';
+import { initKeyScreen } from './keyscreen.js?v=cc00758';
+import { initTemplateScreen } from './tplscreen.js?v=cc00758';
+import { createDefs } from './defs.js?v=cc00758';
+import { createTip } from './tip.js?v=cc00758';
+import { createTour } from './tour.js?v=cc00758';
+import { registerSw } from './pwa.js?v=cc00758';
 
 // 保存済みの WordNet テーマ（設定の slots[].theme）を読み込むかのスイッチ。false の間は読み込まない（保存データからは消さない）
 const THEMES_ON = false;
@@ -71,7 +71,7 @@ function rebuildPools() {
 }
 const say = text => view.say(text);
 const rnd = type => pickWord(pools, type, new Set(), Math.random) ?? '';
-const loadGraph = () => (graphP ??= fetch('data/graph.json?v=a204d77', { signal: AbortSignal.timeout?.(15000) })
+const loadGraph = () => (graphP ??= fetch('data/graph.json?v=cc00758', { signal: AbortSignal.timeout?.(15000) })
   .then(r => { if (!r.ok) throw new Error('graph'); return r.json(); })
   .then(indexGraph) // 15秒で打ち切る（signal は本文の読み込みにも効く）
   .catch(e => { graphP = null; throw e; }));
@@ -102,7 +102,7 @@ function paint(i, fresh = false) {
   tip?.check(); // 語が変わった・回り始めたら、出ている吹き出しを消す
 }
 
-// 回転中だけ押せない部品（枠の数・種類・語えらび・枠に戻す）をまとめて切り替える
+// 回転中だけ押せない部品（枠の数・種類・語えらび・スロットにセット）をまとめて切り替える
 const applyBusy = () => document.querySelectorAll('[data-edit]').forEach(el => { el.disabled = !canEdit(reels); });
 
 function sync() {
@@ -260,7 +260,7 @@ function press(i) {
 
 // --- IDEA! ---
 const addHit = combo => {
-  state.favorites = [{ combo, memo: '', savedAt: Date.now(), rating: 0, tags: [] }, ...state.favorites];
+  state.favorites = [{ combo, memo: '', savedAt: Date.now(), rating: 0 }, ...state.favorites];
   store.save('favorites');
 };
 function idea() {
@@ -424,16 +424,15 @@ $('q').addEventListener('keydown', e => {
 $('cards').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) fix(c.dataset.w); });
 
 // --- 当たり帳・履歴 ---
-const hv = { sort: 'new', text: '', min: 0, tag: '' }; // 一覧の並べ替えと絞り込み（保存しない）
+const hv = { sort: 'new', text: '', min: 0 }; // 一覧の並べ替えと絞り込み（保存しない）
 const STARS = [1, 2, 3, 4, 5];
 // メモの先頭の改行は <textarea> が1つ捨てるので、1つ足しておく
 const hitHtml = ({ f, i }) => `<div class="hit${i === 0 ? ' new' : ''}">
   <div class="stars" role="group" aria-label="評価">${STARS.map(n => `<button class="star${n <= f.rating ? ' on' : ''}" data-star="${i}:${n}" aria-pressed="${n === f.rating}" aria-label="★${n}">★</button>`).join('')}</div>
-  <b>${f.combo.map((w, j) => `<span class="wr"><span class="w">${esc(w)}</span>${j < 4 ? `<button class="rr" data-edit data-respin="${i}:${j}" aria-label="「${esc(w)}」だけ回し直す" title="この語だけ回し直す">↻</button>` : ''}</span>`).join(' <i>×</i> ')}</b>
-  <div class="htags">${f.tags.map((t, k) => `<span class="htag"><button class="tagb" data-tag="${esc(t)}" title="このタグで絞り込む">#${esc(t)}</button><button class="tagx" data-untag="${i}:${k}" aria-label="タグ「${esc(t)}」を消す">×</button></span>`).join('')}<input class="tagin" data-tagin="${i}" placeholder="タグを足す（Enter か 、）" aria-label="タグを足す"></div>
+  <b>${f.combo.map(w => `<span class="w">${esc(w)}</span>`).join(' <i>×</i> ')}</b>
   <textarea data-h="${i}" rows="1" placeholder="ひとことメモ（思いついたことを書いておく）" aria-label="メモ">
 ${esc(f.memo)}</textarea>
-  <div class="row"><button class="sbtn" data-copy="${i}">コピー</button><button class="sbtn" data-edit data-back="${i}">枠に戻す</button><button class="sbtn" data-del="${i}">削除</button></div></div>`;
+  <div class="row"><button class="sbtn go" data-edit data-back="${i}">スロットにセット</button><button class="sbtn" data-copy="${i}">コピー</button><button class="sbtn" data-del="${i}">削除</button></div></div>`;
 
 // メモの欄は内容に合わせて高さを伸ばす
 const fitMemo = t => { t.style.height = 'auto'; t.style.height = t.scrollHeight + 4 + 'px'; };
@@ -442,15 +441,11 @@ addEventListener('resize', fitMemos);
 document.fonts?.ready.then(fitMemos);
 
 function renderHits() {
-  const all = state.favorites, tags = tagsOf(all);
-  if (hv.tag && !tags.includes(hv.tag)) hv.tag = '';
+  const all = state.favorites;
   const shown = viewHits(all, hv), active = isActive(hv);
-  $('htag').innerHTML = '<option value="">タグ：すべて</option>' + tags.map(t => `<option value="${esc(t)}">#${esc(t)}</option>`).join('');
-  $('htag').value = hv.tag;
   $('hctl').hidden = !all.length && !active;
   $('hstat').hidden = !active;
   $('hcount').textContent = `絞り込み中：${all.length}件中 ${shown.length}件`;
-  $('hcopy').disabled = !shown.length;
   $('hits').innerHTML = shown.map(hitHtml).join('') || `<div id="empty">${all.length ? '条件に合う当たりがありません' : 'まだありません'}</div>`;
   fitMemos();
   panels.setCount('hits', all.length);
@@ -473,20 +468,9 @@ function restoreCombo(combo) {
   let next = restore(reels, combo.slice(0, 4));
   next = resizeSlots(next, clamp(next.length));
   setReels(next);
-  say(`${comboText(next.map(r => r.value))} を枠に戻しました`);
+  say(`${comboText(next.map(r => r.value))} をスロットにセットしました`);
 }
 const closeSheetOnMobile = () => { if (matchMedia('(max-width: 599px)').matches) panels.closeAll(false); }; // スマホではシートを閉じて筐体を見せる（ポーズには戻らない）
-
-// 当たりカードの語の ↻: 組み合わせを枠に戻し、その語以外をロックして、その語のリールだけ回す
-function respinWord(i, j) {
-  const combo = state.favorites[i]?.combo;
-  if (!ready || !canEdit(reels) || !combo?.[j]) return;
-  restoreCombo(combo);
-  setReels(lockExcept(reels, j));
-  pull();
-  say(`「${combo[j]}」を回し直します`);
-  closeSheetOnMobile();
-}
 
 // 履歴の ★: その組み合わせを当たり帳に入れる（コインは出さない）
 function historyToHit(i) {
@@ -533,22 +517,8 @@ $('hits').addEventListener('input', e => {
     state.favorites[Number(t.dataset.h)].memo = t.value;
     store.save('favorites');
     fitMemo(t);
-  } else if (t.dataset.tagin !== undefined && !e.isComposing && /[,、]/.test(t.value)) commitTag(t);
+  }
 });
-// タグ: Enter か「、」「,」で追加（日本語入力の確定中は待つ）
-function commitTag(el) {
-  const i = Number(el.dataset.tagin), f = state.favorites[i], next = addTags(f.tags, el.value);
-  el.value = '';
-  if (next.length === f.tags.length) return;
-  f.tags = next;
-  store.save('favorites');
-  renderHits();
-  $('hits').querySelector(`[data-tagin="${i}"]`)?.focus(); // 続けて入力できるように
-}
-$('hits').addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.isComposing && e.keyCode !== 229 && e.target.dataset.tagin !== undefined) { e.preventDefault(); commitTag(e.target); }
-});
-$('hits').addEventListener('compositionend', e => { if (e.target.dataset.tagin !== undefined && /[,、]/.test(e.target.value)) commitTag(e.target); });
 $('hits').addEventListener('click', e => {
   const b = e.target.closest('button');
   if (!b) return;
@@ -559,33 +529,18 @@ $('hits').addEventListener('click', e => {
     store.save('favorites');
     renderHits();
     if (kb) $('hits').querySelector(`[data-star="${d.star}"]`)?.focus();
-  } else if (d.untag !== undefined) {
-    const [i, k] = d.untag.split(':').map(Number), f = state.favorites[i];
-    f.tags = f.tags.filter((_, x) => x !== k);
-    store.save('favorites');
-    renderHits();
-    if (kb) $('hits').querySelector(`[data-tagin="${i}"]`)?.focus();
-  } else if (d.tag !== undefined) { hv.tag = d.tag; renderHits(); if (kb) $('htag').focus(); }
-  else if (d.copy !== undefined) copyHit(Number(d.copy));
-  else if (d.respin !== undefined) respinWord(...d.respin.split(':').map(Number));
+  } else if (d.copy !== undefined) copyHit(Number(d.copy));
 });
 
-// 一覧の操作（並べ替え・絞り込み・まとめてコピー）
-for (const [id, key, f] of [['hsort', 'sort', String], ['hmin', 'min', Number], ['htag', 'tag', String], ['hq', 'text', String]]) {
+// 一覧の操作（並べ替え・絞り込み）
+for (const [id, key, f] of [['hsort', 'sort', String], ['hmin', 'min', Number], ['hq', 'text', String]]) {
   $(id).addEventListener(id === 'hq' ? 'input' : 'change', e => { hv[key] = f(e.target.value); renderHits(); });
 }
 $('hreset').addEventListener('click', () => {
-  Object.assign(hv, { text: '', min: 0, tag: '' });
+  Object.assign(hv, { text: '', min: 0 });
   $('hq').value = '';
   $('hmin').value = '0';
   renderHits();
-});
-$('hcopy').addEventListener('click', async () => {
-  const list = viewHits(state.favorites, hv).map(x => x.f);
-  if (!list.length) return;
-  if (!await copyText(formatHits(list, $('hfmt').value))) { copyFailed(); return; }
-  sound.play('lock');
-  say(`${list.length}件をコピーしました`);
 });
 
 const help = initHelp();
@@ -647,7 +602,7 @@ function initialReels() {
 async function start() {
   rebuildPools();
   sound.enabled = state.settings.sound;
-  cab = createCabinet($('cv'));
+  cab = createCabinet($('cv'), { onCollect: () => sound.play('coin') });
   cab.initPile(state.favorites.length); // 受け皿の山は当たり帳の件数から
   view = createOverlay($('wrap'), $('ov'), {
     reel: press, lever: pull, leverPos: a => cab.setLever(a), idea,
@@ -659,7 +614,7 @@ async function start() {
     count: changeCount,
   });
   // 語の意味: 窓の中央の語と当たり帳の語。PC はマウスを乗せる、スマホは長押し。使う語のファイルだけを読む
-  const defs = createDefs(n => fetch(`data/defs/${n}.json?v=a204d77`).then(r => { if (!r.ok) throw new Error(n); return r.json(); }), data.games);
+  const defs = createDefs(n => fetch(`data/defs/${n}.json?v=cc00758`).then(r => { if (!r.ok) throw new Error(n); return r.json(); }), data.games);
   tip = createTip(w => defs.lookup(w), el => {
     if (!el.classList.contains('m')) return el.textContent; // 当たり帳の語
     const r = reels[+el.dataset.w];
@@ -730,9 +685,9 @@ function fail() {
 async function load() {
   try {
     const [words, verbs, genres, tags, games] = await Promise.all(
-      ['words', 'verbs', 'genres', 'tags', 'games'].map(n => fetch(`data/${n}.json?v=a204d77`).then(r => { if (!r.ok) throw new Error(n); return r.json(); })));
+      ['words', 'verbs', 'genres', 'tags', 'games'].map(n => fetch(`data/${n}.json?v=cc00758`).then(r => { if (!r.ok) throw new Error(n); return r.json(); })));
     // テーマ集は無くても続行（全部空のテーマ）
-    const extra = await fetch('data/extra.json?v=a204d77').then(r => (r.ok ? r.json() : {})).catch(() => ({}));
+    const extra = await fetch('data/extra.json?v=cc00758').then(r => (r.ok ? r.json() : {})).catch(() => ({}));
     data = { words, verbs, genres, tags, games, extra };
   } catch {
     fail();
