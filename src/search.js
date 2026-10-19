@@ -1,4 +1,4 @@
-import { TYPE_KEYS } from './types.js?v=123af8c';
+import { TYPE_KEYS } from './types.js?v=a204d77';
 
 // 固定順: noun:* → verb → genre → game → extra:* → tag:*（和集合キー noun/tag/any は使わない）
 const keysOf = prefix => TYPE_KEYS.filter(k => k.startsWith(prefix));
