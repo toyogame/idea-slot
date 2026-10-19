@@ -1,7 +1,7 @@
 // 左端の「テンプレ」引き出しの中身。今のリールの構成（本数と各リールの種類）に名前を付けて保存し、呼び出す。
 // 並べ替え・検証は templates.js の純粋関数。current(): 今の構成 [{type}]、label(type): 種類の表示名、use(t): 適用して振り直す（できたら true）、count(n): 件数のバッジ
 // 返す render() は全体の描き直し（保存データが入れ替わったとき）、refresh() は構成の表示だけの更新（入力中の名前を壊さない）
-import { describeSlots, addTemplate, replaceTemplate, removeTemplate } from './templates.js?v=ac11f15';
+import { describeSlots, addTemplate, replaceTemplate, removeTemplate } from './templates.js?v=123af8c';
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -18,8 +18,8 @@ export function initTemplateScreen({ store, isSpinning, current, label, use, cou
       <form class="row" data-form="save"><input name="name" value="${esc(draft)}" placeholder="テンプレートの名前" aria-label="テンプレートの名前" autocomplete="off"><button class="sbtn" data-edit${off}>今の構成を保存</button></form>
       <p class="err" role="alert">${esc(err)}</p><p class="note" role="status">${esc(note)}</p>
       <h4>保存したテンプレート</h4>
-      ${mine.length ? `<ul class="list tpl">${mine.map((t, i) => `<li><b>${esc(t.name)}</b><span>${esc(describeSlots(t.slots, label))}</span>
-        <div class="row"><button class="sbtn" data-edit${off} data-act="use" data-i="${i}">使う</button><button class="sbtn" data-edit${off} data-act="over" data-i="${i}">上書き</button><button class="sbtn" data-act="del" data-i="${i}">削除</button></div></li>`).join('')}</ul>` : '<p>まだありません</p>'}`;
+      <div class="dscroll">${mine.length ? `<ul class="list tpl">${mine.map((t, i) => `<li><b>${esc(t.name)}</b><span>${esc(describeSlots(t.slots, label))}</span>
+        <div class="row"><button class="sbtn" data-edit${off} data-act="use" data-i="${i}">使う</button><button class="sbtn" data-edit${off} data-act="over" data-i="${i}">上書き</button><button class="sbtn" data-act="del" data-i="${i}">削除</button></div></li>`).join('')}</ul>` : '<p>まだありません</p>'}</div>`;
     count(mine.length);
   }
   const refresh = () => {

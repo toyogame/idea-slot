@@ -1,25 +1,25 @@
-import { TYPE_LABELS, TYPE_KEYS, MY, typeGroups } from './types.js?v=ac11f15';
-import { buildPools } from './pools.js?v=ac11f15';
-import { spin, rerollOne, setSlotType, resizeSlots, pickWord } from './pick.js?v=ac11f15';
-import { parseType, toggleType, normalizeType, remapType } from './typekey.js?v=ac11f15';
-import { initPanels } from './panels.js?v=ac11f15';
-import { startSpin, stopReel, pressReel, isSpinning, allStopped, canEdit, canSave, autoStopDelays, restore } from './machine.js?v=ac11f15';
-import { buildIndex, searchWords } from './search.js?v=ac11f15';
-import { indexGraph, themeWords } from './theme.js?v=ac11f15';
-import { createStore } from './store.js?v=ac11f15';
-import { createCabinet } from './cabinet.js?v=ac11f15';
-import { createSound } from './sound.js?v=ac11f15';
-import { createOverlay } from './reels.js?v=ac11f15';
-import { initScreens } from './screens.js?v=ac11f15';
-import { initThemeScreen } from './themescreen.js?v=ac11f15';
-import { effectiveWidth, fitWidth, widthAt, W_MIN } from './layout.js?v=ac11f15';
-import { initGrips } from './grips.js?v=ac11f15';
-import { initTypePanel } from './typepanel.js?v=ac11f15';
-import { initHelp } from './help.js?v=ac11f15';
-import { actionFor, canonCode, keyHelp } from './keys.js?v=ac11f15';
-import { applySlots } from './templates.js?v=ac11f15';
-import { initKeyScreen } from './keyscreen.js?v=ac11f15';
-import { initTemplateScreen } from './tplscreen.js?v=ac11f15';
+import { TYPE_LABELS, TYPE_KEYS, MY, typeGroups } from './types.js?v=123af8c';
+import { buildPools } from './pools.js?v=123af8c';
+import { spin, rerollOne, setSlotType, resizeSlots, pickWord } from './pick.js?v=123af8c';
+import { parseType, toggleType, normalizeType, remapType } from './typekey.js?v=123af8c';
+import { initPanels } from './panels.js?v=123af8c';
+import { startSpin, stopReel, pressReel, isSpinning, allStopped, canEdit, canSave, autoStopDelays, restore } from './machine.js?v=123af8c';
+import { buildIndex, searchWords } from './search.js?v=123af8c';
+import { indexGraph, themeWords } from './theme.js?v=123af8c';
+import { createStore } from './store.js?v=123af8c';
+import { createCabinet } from './cabinet.js?v=123af8c';
+import { createSound } from './sound.js?v=123af8c';
+import { createOverlay } from './reels.js?v=123af8c';
+import { initScreens } from './screens.js?v=123af8c';
+import { initThemeScreen } from './themescreen.js?v=123af8c';
+import { effectiveWidth, fitWidth, widthAt, W_MIN } from './layout.js?v=123af8c';
+import { initGrips } from './grips.js?v=123af8c';
+import { initTypePanel } from './typepanel.js?v=123af8c';
+import { initHelp } from './help.js?v=123af8c';
+import { actionFor, canonCode, keyHelp } from './keys.js?v=123af8c';
+import { applySlots } from './templates.js?v=123af8c';
+import { initKeyScreen } from './keyscreen.js?v=123af8c';
+import { initTemplateScreen } from './tplscreen.js?v=123af8c';
 
 // 保存済みの WordNet テーマ（設定の slots[].theme）を読み込むかのスイッチ。false の間は読み込まない（保存データからは消さない）
 const THEMES_ON = false;
@@ -65,7 +65,7 @@ function rebuildPools() {
 }
 const say = text => view.say(text);
 const rnd = type => pickWord(pools, type, new Set(), Math.random) ?? '';
-const loadGraph = () => (graphP ??= fetch('data/graph.json?v=ac11f15', { signal: AbortSignal.timeout?.(15000) })
+const loadGraph = () => (graphP ??= fetch('data/graph.json?v=123af8c', { signal: AbortSignal.timeout?.(15000) })
   .then(r => { if (!r.ok) throw new Error('graph'); return r.json(); })
   .then(indexGraph) // 15秒で打ち切る（signal は本文の読み込みにも効く）
   .catch(e => { graphP = null; throw e; }));
@@ -414,7 +414,7 @@ function renderHits() {
   const list = state.favorites.map((f, i) => `<div class="hit${i === 0 ? ' new' : ''}"><b>${f.combo.map(esc).join(' <i>×</i> ')}</b>
     <input data-h="${i}" value="${esc(f.memo)}" placeholder="ひとことメモ（思いついたことを書いておく）" aria-label="メモ">
     <div class="row"><button class="sbtn" data-edit data-back="${i}">枠に戻す</button><button class="sbtn" data-del="${i}">削除</button></div></div>`).join('');
-  $('hits').innerHTML = list || '<div id="empty">いいね！と思ったら IDEA! ボタン</div>';
+  $('hits').innerHTML = list || '<div id="empty">まだありません</div>';
   panels.setCount('hits', state.favorites.length);
   pauseLabels();
   applyBusy();
@@ -586,9 +586,9 @@ function fail() {
 async function load() {
   try {
     const [words, verbs, genres, tags, games] = await Promise.all(
-      ['words', 'verbs', 'genres', 'tags', 'games'].map(n => fetch(`data/${n}.json?v=ac11f15`).then(r => { if (!r.ok) throw new Error(n); return r.json(); })));
+      ['words', 'verbs', 'genres', 'tags', 'games'].map(n => fetch(`data/${n}.json?v=123af8c`).then(r => { if (!r.ok) throw new Error(n); return r.json(); })));
     // テーマ集は無くても続行（全部空のテーマ）
-    const extra = await fetch('data/extra.json?v=ac11f15').then(r => (r.ok ? r.json() : {})).catch(() => ({}));
+    const extra = await fetch('data/extra.json?v=123af8c').then(r => (r.ok ? r.json() : {})).catch(() => ({}));
     data = { words, verbs, genres, tags, games, extra };
   } catch {
     fail();
