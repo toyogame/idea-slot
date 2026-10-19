@@ -1,9 +1,9 @@
 // 「テーマ」画面。全部のテーマ（元からある種類・自作テーマ）の一覧と、その中身（語の追加・除外・絞り込み）を扱う。
 // 語の組み立ては wordlist.js / mythemes.js の純粋関数で行い、app.js へは changed(remap) で知らせる。
-import { parseWords, addWords, removeWord, createTheme, renameTheme, deleteTheme } from './mythemes.js?v=cc00758';
-import { baseWords } from './pools.js?v=cc00758';
-import { wordCount, wordRows, newCustom } from './wordlist.js?v=cc00758';
-import { TYPE_LABELS, typeGroups } from './types.js?v=cc00758';
+import { parseWords, addWords, removeWord, createTheme, renameTheme, deleteTheme } from './mythemes.js?v=eea4066';
+import { baseWords } from './pools.js?v=eea4066';
+import { wordCount, wordRows, newCustom } from './wordlist.js?v=eea4066';
+import { TYPE_LABELS, typeGroups } from './types.js?v=eea4066';
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const PAGE = 300; // 一度に描く語の数（「もっと見る」で増やす）
