@@ -1,25 +1,25 @@
-import { TYPE_LABELS, TYPE_KEYS, MY, typeGroups } from './types.js';
-import { buildPools } from './pools.js';
-import { spin, rerollOne, setSlotType, resizeSlots, pickWord } from './pick.js';
-import { parseType, toggleType, normalizeType, remapType } from './typekey.js';
-import { initPanels } from './panels.js';
-import { startSpin, stopReel, pressReel, isSpinning, allStopped, canEdit, canSave, autoStopDelays, restore } from './machine.js';
-import { buildIndex, searchWords } from './search.js';
-import { indexGraph, themeWords } from './theme.js';
-import { createStore } from './store.js';
-import { createCabinet } from './cabinet.js';
-import { createSound } from './sound.js';
-import { createOverlay } from './reels.js';
-import { initScreens } from './screens.js';
-import { initThemeScreen } from './themescreen.js';
-import { effectiveWidth, fitWidth, widthAt, W_MIN } from './layout.js';
-import { initGrips } from './grips.js';
-import { initTypePanel } from './typepanel.js';
-import { initHelp } from './help.js';
-import { actionFor, canonCode, keyHelp } from './keys.js';
-import { applySlots } from './templates.js';
-import { initKeyScreen } from './keyscreen.js';
-import { initTemplateScreen } from './tplscreen.js';
+import { TYPE_LABELS, TYPE_KEYS, MY, typeGroups } from './types.js?v=ac11f15';
+import { buildPools } from './pools.js?v=ac11f15';
+import { spin, rerollOne, setSlotType, resizeSlots, pickWord } from './pick.js?v=ac11f15';
+import { parseType, toggleType, normalizeType, remapType } from './typekey.js?v=ac11f15';
+import { initPanels } from './panels.js?v=ac11f15';
+import { startSpin, stopReel, pressReel, isSpinning, allStopped, canEdit, canSave, autoStopDelays, restore } from './machine.js?v=ac11f15';
+import { buildIndex, searchWords } from './search.js?v=ac11f15';
+import { indexGraph, themeWords } from './theme.js?v=ac11f15';
+import { createStore } from './store.js?v=ac11f15';
+import { createCabinet } from './cabinet.js?v=ac11f15';
+import { createSound } from './sound.js?v=ac11f15';
+import { createOverlay } from './reels.js?v=ac11f15';
+import { initScreens } from './screens.js?v=ac11f15';
+import { initThemeScreen } from './themescreen.js?v=ac11f15';
+import { effectiveWidth, fitWidth, widthAt, W_MIN } from './layout.js?v=ac11f15';
+import { initGrips } from './grips.js?v=ac11f15';
+import { initTypePanel } from './typepanel.js?v=ac11f15';
+import { initHelp } from './help.js?v=ac11f15';
+import { actionFor, canonCode, keyHelp } from './keys.js?v=ac11f15';
+import { applySlots } from './templates.js?v=ac11f15';
+import { initKeyScreen } from './keyscreen.js?v=ac11f15';
+import { initTemplateScreen } from './tplscreen.js?v=ac11f15';
 
 // 保存済みの WordNet テーマ（設定の slots[].theme）を読み込むかのスイッチ。false の間は読み込まない（保存データからは消さない）
 const THEMES_ON = false;
@@ -65,7 +65,7 @@ function rebuildPools() {
 }
 const say = text => view.say(text);
 const rnd = type => pickWord(pools, type, new Set(), Math.random) ?? '';
-const loadGraph = () => (graphP ??= fetch('data/graph.json', { signal: AbortSignal.timeout?.(15000) })
+const loadGraph = () => (graphP ??= fetch('data/graph.json?v=ac11f15', { signal: AbortSignal.timeout?.(15000) })
   .then(r => { if (!r.ok) throw new Error('graph'); return r.json(); })
   .then(indexGraph) // 15秒で打ち切る（signal は本文の読み込みにも効く）
   .catch(e => { graphP = null; throw e; }));
@@ -586,9 +586,9 @@ function fail() {
 async function load() {
   try {
     const [words, verbs, genres, tags, games] = await Promise.all(
-      ['words', 'verbs', 'genres', 'tags', 'games'].map(n => fetch(`data/${n}.json`).then(r => { if (!r.ok) throw new Error(n); return r.json(); })));
+      ['words', 'verbs', 'genres', 'tags', 'games'].map(n => fetch(`data/${n}.json?v=ac11f15`).then(r => { if (!r.ok) throw new Error(n); return r.json(); })));
     // テーマ集は無くても続行（全部空のテーマ）
-    const extra = await fetch('data/extra.json').then(r => (r.ok ? r.json() : {})).catch(() => ({}));
+    const extra = await fetch('data/extra.json?v=ac11f15').then(r => (r.ok ? r.json() : {})).catch(() => ({}));
     data = { words, verbs, genres, tags, games, extra };
   } catch {
     fail();

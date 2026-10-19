@@ -1,6 +1,6 @@
 // 「キー設定」画面（PC のみ）。操作ごとのキーのボタンを押して、次に押したキーを割り当てる。
 // 並べ替え・検証は keys.js の純粋関数。変えたら changed() で app.js に知らせる（使い方の「キー操作」を作り直す）。
-import { ACTIONS, DEFAULT_KEYS, assignKey, keyName, canonCode } from './keys.js';
+import { ACTIONS, DEFAULT_KEYS, assignKey, keyName, canonCode } from './keys.js?v=ac11f15';
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const label = id => ACTIONS.find(a => a.id === id).label;
