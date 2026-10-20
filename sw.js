@@ -1,7 +1,7 @@
 // Service Worker。ページ本体はネット優先（オフラインならキャッシュ）、ほかのファイルはキャッシュ優先。
 // 公開ファイルは ?v=<版> 付きで URL ごと変わるので、キャッシュ優先でも古いものを使い続けない。
-// c3d1961 は公開時（tools/publish.mjs → stampSw）に置き換わる。版が変わるとキャッシュ名も変わり、古いキャッシュは消える。
-const NAME = 'idea-slot-c3d1961';
+// 63a7412 は公開時（tools/publish.mjs → stampSw）に置き換わる。版が変わるとキャッシュ名も変わり、古いキャッシュは消える。
+const NAME = 'idea-slot-63a7412';
 
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(

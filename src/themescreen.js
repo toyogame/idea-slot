@@ -1,14 +1,14 @@
 // 「テーマ」画面。全部のテーマ（元からある種類・自作テーマ）の一覧と、その中身（語の追加・除外・絞り込み）を扱う。
 // 語の組み立ては wordlist.js / mythemes.js の純粋関数で行い、app.js へは changed(remap) で知らせる。
-import { parseWords, addWords, removeWord, createTheme, renameTheme, deleteTheme } from './mythemes.js?v=c3d1961';
-import { baseWords } from './pools.js?v=c3d1961';
-import { wordCount, wordRows, newCustom } from './wordlist.js?v=c3d1961';
-import { TYPE_LABELS, NG, NG_WARN, typeGroups } from './types.js?v=c3d1961';
+import { parseWords, addWords, removeWord, createTheme, renameTheme, deleteTheme } from './mythemes.js?v=63a7412';
+import { baseWords } from './pools.js?v=63a7412';
+import { wordCount, wordRows, newCustom } from './wordlist.js?v=63a7412';
+import { TYPE_LABELS, NG, NG_WARN, typeGroups } from './types.js?v=63a7412';
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const PAGE = 300; // 一度に描く語の数（「もっと見る」で増やす）
-// 全部ランダム・単語（全部）・テーマ集（全部）・タグ（全部）は、ほかの分類をまとめただけなので出さない
-const groups = typeGroups([]).map(g => ({ ...g, items: g.items.filter(x => !['any', 'noun', 'extra', 'tag'].includes(x.k)) })).filter(g => g.items.length);
+// 全部ランダムは、ほかの分類をまとめただけなので出さない
+const groups = typeGroups([]).map(g => ({ ...g, items: g.items.filter(x => x.k !== 'any') })).filter(g => g.items.length);
 
 // changed(remap?): 一覧や語が変わったとき。名前変更は {from, to}、削除は {from, to: null}
 export function initThemeScreen({ store, data, isSpinning, changed }) {
