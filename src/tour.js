@@ -1,6 +1,6 @@
 // 初めての人向けの案内。指している部品を明るく囲み、吹き出しで「次へ」「スキップ」を出す（Esc でも終わる）。
 // 画面全体の <dialog>（showModal）なので、案内の間は後ろの画面を触れず、キー操作も効かない。吹き出しの位置は tip.js と同じ式。
-import { placeTip } from './tip.js?v=5843457';
+import { placeTip } from './tip.js?v=112ca1c';
 
 // 画面（vw×vh）全体から、rects（{left, top, right, bottom}）の部分だけ抜いた clip-path
 export const holePath = (rects, vw, vh) =>
@@ -11,14 +11,14 @@ export const unionRect = rects => ({
   right: Math.max(...rects.map(r => r.right)), bottom: Math.max(...rects.map(r => r.bottom)),
 });
 
-// 各ステップ: find(narrow) → 指す要素、text(narrow) → 説明。スマホ（narrow）は端のタブが無いので、ポーズボタンを指す
+// 各ステップ: find(narrow) → 指す要素、text(narrow) → 説明。スマホ（narrow）は端のタブが無いので、筐体の下の一覧のタブを指す
 const q = sel => [...document.querySelectorAll(sel)].slice(0, 1);
 const STEPS = [
   { find: () => q('#lev'), text: n => (n ? 'レバーを下へ引くか、下の SPIN ボタンで回します。' : 'レバーを下へ引く（またはスペースキー）で回します。') },
   { find: () => q('.sb .f'), text: () => '回っている間に STOP で止めます。気に入った語は LOCK で固定。次に回しても動きません。' },
   { find: () => q('#idea'), text: () => 'いい組み合わせができたら IDEA! で当たり帳へ。' },
   { find: () => q('.mon'), text: () => 'モニターを押すと、リールごとにテーマを選べます。' },
-  { find: n => (n ? q('#pbtn') : [...document.querySelectorAll('.dtab')]), text: n => (n ? '左上の ⏸ から、履歴・テンプレート・当たり帳を開けます。' : '左右の端のタブで、履歴・テンプレート・当たり帳を開けます。') },
+  { find: n => (n ? q('#ptabs') : [...document.querySelectorAll('.dtab')]), text: n => (n ? '下のタブで、履歴・当たり帳・テンプレートを切り替えられます。' : '左右の端のタブで、履歴・テンプレート・当たり帳を開けます。') },
 ];
 
 const PAD = 4;

@@ -1,7 +1,7 @@
 // ピクセルアート筐体の描画（論理 W×190。W は 200〜340、基準は 200）。見た目の基準は docs/superpowers/specs/mockups/casino-v6.html
 // 描くだけで、入力処理もHTMLの重ね物も持たない（それはアプリ側）。
-import { reelRects, stopRect, MONITOR_Y, MONITOR_H, REEL_Y, REEL_H, COUNT_BTN, W_MIN, LEVER_REST, LEVER_DOWN } from './layout.js?v=5843457';
-import { COL_W, MAX_H, colsFor, dropCoin, initialPile, fitPile, frameScale, stepCoin, launchCoin, hitCoin, spinCoin, isGone, takeCoins } from './coins.js?v=5843457';
+import { reelRects, stopRect, MONITOR_Y, MONITOR_H, REEL_Y, REEL_H, COUNT_BTN, W_MIN, LEVER_REST, LEVER_DOWN } from './layout.js?v=112ca1c';
+import { COL_W, MAX_H, colsFor, dropCoin, initialPile, fitPile, frameScale, stepCoin, launchCoin, hitCoin, spinCoin, isGone, takeCoins } from './coins.js?v=112ca1c';
 
 // x 座標は三種類: 左に付く（そのまま）／右に付く（+ D、D = W - 200）／伸びる（幅に + D）／中央（CX 基準、CX = W/2）
 const H = 190, DY = 10; // DY: LEDバーより下（元の y ≥ 61）をモニターの分だけ下げる量

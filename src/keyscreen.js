@@ -1,6 +1,6 @@
 // 「キー設定」画面（PC のみ）。操作ごとのキーのボタンを押して、次に押したキーを割り当てる。
 // 検証・重複の判定は keys.js の純粋関数。同じキーを複数の操作に割り当ててよい（重複したキーのボタンは赤く、下に一行出す）。変えたら changed() で app.js に知らせる（使い方の「キー操作」を作り直す）。
-import { ACTIONS, DEFAULT_KEYS, assignKey, dupCodes, keyName, canonCode } from './keys.js?v=5843457';
+import { ACTIONS, DEFAULT_KEYS, assignKey, dupCodes, keyName, canonCode } from './keys.js?v=112ca1c';
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const label = id => ACTIONS.find(a => a.id === id).label;
