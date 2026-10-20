@@ -1,4 +1,4 @@
-import { parseType } from './typekey.js?v=63a7412';
+import { parseType } from './typekey.js?v=579c412';
 
 // 使用済みでない語を1つ選ぶ。まずランダムに最大50回引き直し、だめなら絞り込む
 function pickFrom(pool = [], used, rng) {
