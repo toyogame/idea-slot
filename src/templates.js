@@ -1,5 +1,5 @@
 // リールのテンプレート（{ name, slots: [{ type }] }）の純粋な操作。引数は変えず、新しい値を返す。
-import { normalizeType } from './typekey.js?v=1fb867e';
+import { normalizeType } from './typekey.js?v=b1b93b4';
 
 const MIN = 2, MAX = 7; // リールの本数（スマホの縦画面では、使うときに 4 本まで）
 
