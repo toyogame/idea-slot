@@ -1,6 +1,6 @@
 // 初めての人向けの案内。指している部品を明るく囲み、吹き出しで「次へ」「スキップ」を出す（Esc でも終わる）。
 // 画面全体の <dialog>（showModal）なので、案内の間は後ろの画面を触れず、キー操作も効かない。吹き出しの位置は tip.js と同じ式。
-import { placeTip } from './tip.js?v=4672826';
+import { placeTip } from './tip.js?v=cac4a08';
 
 // 画面（vw×vh）全体から、rects（{left, top, right, bottom}）の部分だけ抜いた clip-path
 export const holePath = (rects, vw, vh) =>

@@ -1,4 +1,4 @@
-@font-face { font-family: 'DotGothic16'; src: url('fonts/DotGothic16-Regular.woff2?v=4672826') format('woff2'), url('fonts/DotGothic16-Regular.ttf?v=4672826') format('truetype'); font-display: swap; }
+@font-face { font-family: 'DotGothic16'; src: url('fonts/DotGothic16-Regular.woff2?v=cac4a08') format('woff2'), url('fonts/DotGothic16-Regular.ttf?v=cac4a08') format('truetype'); font-display: swap; }
 * { box-sizing: border-box; }
 html { height: 100%; }
 :root { --th: 140px; } /* 端のタブの高さ */
