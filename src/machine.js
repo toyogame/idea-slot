@@ -1,4 +1,4 @@
-import { spin, rerollOne, resizeSlots } from './pick.js?v=fdab8ff';
+import { spin, rerollOne, resizeSlots } from './pick.js?v=5862115';
 
 // 止まった直後にロックを誤操作しないための待ち時間
 export const LOCK_GUARD_MS = 300;
@@ -29,6 +29,15 @@ export function pressReel(reels, i, now) {
   if (r.stoppedAt != null && now - r.stoppedAt < LOCK_GUARD_MS) return { reels: reels.map(x => ({ ...x })), action: 'ignored' };
   return { reels: mapAt(reels, i, x => ({ ...x, held: !x.held })), action: r.held ? 'unlock' : 'lock' };
 }
+
+// 詳細のキー用: i 番を on（ロック）/ off（解除）にできるか。止まっていて、ロックは語があるときだけ。now を渡すと止めた直後（LOCK_GUARD_MS）は不可
+export function canHold(reels, i, on, now = Infinity) {
+  const r = reels[i];
+  if (!r || r.running || (r.stoppedAt != null && now - r.stoppedAt < LOCK_GUARD_MS)) return false;
+  return on ? !!r.value && !r.held : !!r.held;
+}
+// i 番のロックを on / off にする（できないときは何もしない）
+export const setHeld = (reels, i, on) => (canHold(reels, i, on) ? mapAt(reels, i, r => ({ ...r, held: on })) : reels.map(r => ({ ...r })));
 
 export function canSave(reels, favorites) {
   if (isSpinning(reels)) return 'spinning';
