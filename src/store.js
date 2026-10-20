@@ -1,7 +1,8 @@
 // localStorage persistence (DOM-free). `storage` has getItem/setItem, or is null for memory-only.
-import { DEFAULT_KEYS, normalizeKeys } from './keys.js?v=ef1a37d';
-import { cleanTemplate } from './templates.js?v=ef1a37d';
-import { cleanRating } from './hits.js?v=ef1a37d';
+import { DEFAULT_KEYS, normalizeKeys } from './keys.js?v=4672826';
+import { cleanTemplate } from './templates.js?v=4672826';
+import { cleanRating } from './hits.js?v=4672826';
+import { MAX_H } from './coins.js?v=4672826';
 
 const KEYS = ['settings', 'history', 'favorites', 'custom', 'excluded', 'stats', 'themes', 'templates'];
 const HISTORY_MAX = 100;
@@ -9,6 +10,8 @@ export const DOCK_TABS = ['hist', 'hits', 'tpl']; // スマホ縦の一覧のタ
 
 const isObj = v => v !== null && typeof v === 'object' && !Array.isArray(v);
 const isArr = Array.isArray;
+const PILE_COLS = 200; // 受け皿の列数の上限の目安
+const cleanPile = v => (isArr(v) && v.length <= PILE_COLS && v.every(h => Number.isInteger(h) && h >= 0 && h <= MAX_H) ? v : []);
 
 const defaults = () => ({
   settings: { count: 3, slots: [{ type: 'any' }, { type: 'any' }, { type: 'any' }], autoStop: false, sound: true, reduceMotion: false, width: 620, cabW: null, keys: { ...DEFAULT_KEYS }, tourSeen: false, dockTab: 'hist' },
@@ -16,7 +19,7 @@ const defaults = () => ({
   favorites: [],
   custom: {},
   excluded: [],
-  stats: { spins: 0, coins: 0 },
+  stats: { spins: 0, coins: 0, pile: [] },
   themes: [],
   templates: [],
 });
@@ -79,9 +82,10 @@ const normalize = {
     for (const t of v.map(cleanTemplate)) if (t && !names.has(t.name)) { names.add(t.name); ok.push(t); }
     return strict && ok.length !== v.length ? null : ok;
   },
-  // spins: 回した回数、coins: 受け皿から回収したコインの枚数（無い・不正なら 0）
+  // spins: 回した回数、coins: 受け皿から回収したコインの枚数（無い・不正なら 0）、
+  // pile: 受け皿に残っているコインの列ごとの高さ（不正なら空の受け皿）
   stats: v => (isObj(v) && Number.isInteger(v.spins) && v.spins >= 0
-    ? { spins: v.spins, coins: Number.isInteger(v.coins) && v.coins >= 0 ? v.coins : 0 }
+    ? { spins: v.spins, coins: Number.isInteger(v.coins) && v.coins >= 0 ? v.coins : 0, pile: cleanPile(v.pile) }
     : null),
 };
 
@@ -119,6 +123,10 @@ export function createStore(storage) {
     },
     addCoins(n) {
       state.stats.coins += n;
+      save('stats');
+    },
+    savePile(h) {
+      state.stats.pile = cleanPile(h);
       save('stats');
     },
     exportJSON: () => JSON.stringify({ app: 'idea-slot', version: 3, ...state }),
