@@ -1,4 +1,4 @@
-import { EXTRA, EXTRA_ONLY } from './types.js?v=eea4066';
+import { EXTRA, EXTRA_ONLY } from './types.js?v=5843457';
 const NOUN_KEYS = ['animal', 'plant', 'food', 'person', 'place', 'tool', 'nature', 'body', 'feeling', 'event', 'abstract', 'other'];
 const TAG_KEYS = ['look', 'mood', 'mechanic'];
 const EXTRA_KEYS = Object.keys(EXTRA);
