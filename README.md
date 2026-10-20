@@ -4,4 +4,4 @@
 
 https://toyogame.github.io/idea-slot/
 
-語データの出典は LICENSE-DATA.md、フォントは fonts/OFL.txt を参照してください。
+プログラムは MIT License（LICENSE）。語データの出典は LICENSE-DATA.md、フォントは fonts/OFL.txt を参照してください。
