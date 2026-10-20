@@ -1,6 +1,6 @@
 // 筐体の上に重ねるHTML（モニター・リール窓・STOP/LOCKボタン・IDEA!・掲示板・レバー）。
 // 座標は論理 W×190（W は 200〜340）から%で配置する。x は左に付く／右に付く（+ W-200）／伸びる／中央（W/2）のどれか（cabinet.js と同じ）。状態は持たず、app.js から言われたとおりに表示を変えるだけ。
-import { reelRects, stopRect, MONITOR_Y, MONITOR_H, REEL_Y, REEL_H, COUNT_BTN, LEVER_REST, LEVER_DOWN, LEVER_PULL, leverAmount } from './layout.js?v=5d7f171';
+import { reelRects, stopRect, MONITOR_Y, MONITOR_H, REEL_Y, REEL_H, COUNT_BTN, LEVER_REST, LEVER_DOWN, LEVER_PULL, leverAmount } from './layout.js?v=6ce5a5f';
 
 const SLOT = '<div class="e"><span></span></div>';
 
