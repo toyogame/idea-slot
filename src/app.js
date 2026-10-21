@@ -1,37 +1,37 @@
-import { TYPE_LABELS, TYPE_KEYS, MY, NG, NG_WARN, typeGroups } from './types.js?v=8dd921f';
-import { buildPools } from './pools.js?v=8dd921f';
-import { spin, rerollOne, setSlotType, resizeSlots, pickWord } from './pick.js?v=8dd921f';
-import { parseType, toggleType, toggleGroup, normalizeType, remapType } from './typekey.js?v=8dd921f';
-import { initPanels } from './panels.js?v=8dd921f';
-import { startSpin, stopReel, pressReel, setHeld, canHold, isSpinning, allStopped, canEdit, canSave, autoStopDelays, restore } from './machine.js?v=8dd921f';
-import { hasCombo, isActive, toggleRating, viewHits } from './hits.js?v=8dd921f';
-import { buildIndex, searchWords } from './search.js?v=8dd921f';
-import { indexGraph, themeWords } from './theme.js?v=8dd921f';
-import { createStore } from './store.js?v=8dd921f';
-import { createUndo, snapOf } from './undo.js?v=8dd921f';
-import { createCabinet } from './cabinet.js?v=8dd921f';
-import { initialPile } from './coins.js?v=8dd921f';
-import { createSound } from './sound.js?v=8dd921f';
-import { createOverlay } from './reels.js?v=8dd921f';
-import { initScreens } from './screens.js?v=8dd921f';
-import { initThemeScreen } from './themescreen.js?v=8dd921f';
-import { initShareScreen } from './sharescreen.js?v=8dd921f';
-import { codeFromHash } from './share.js?v=8dd921f';
-import { effectiveWidth, fitWidth, widthAt, W_MIN, maxReels } from './layout.js?v=8dd921f';
-import { initGrips } from './grips.js?v=8dd921f';
-import { initTypePanel } from './typepanel.js?v=8dd921f';
-import { initHelp } from './help.js?v=8dd921f';
-import { activeActions, canonCode, keyHelp } from './keys.js?v=8dd921f';
-import { applySlots } from './templates.js?v=8dd921f';
-import { initKeyScreen } from './keyscreen.js?v=8dd921f';
-import { initTemplateScreen } from './tplscreen.js?v=8dd921f';
-import { createDefs } from './defs.js?v=8dd921f';
-import { createTip } from './tip.js?v=8dd921f';
-import { createTour } from './tour.js?v=8dd921f';
-import { registerSw } from './pwa.js?v=8dd921f';
-import { createBoot } from './boot.js?v=8dd921f';
-import { initAbout } from './about.js?v=8dd921f';
-import { DEMO_SCRIPT, DEMO_WORDS, DEMO_TYPES, LEVER_RAMP_MS, SWEEP_MS, modeOf, sweepAt } from './demo.js?v=8dd921f';
+import { TYPE_LABELS, TYPE_KEYS, MY, NG, NG_WARN, typeGroups } from './types.js?v=f8371c6';
+import { buildPools } from './pools.js?v=f8371c6';
+import { spin, rerollOne, setSlotType, resizeSlots, pickWord } from './pick.js?v=f8371c6';
+import { parseType, toggleType, toggleGroup, normalizeType, remapType } from './typekey.js?v=f8371c6';
+import { initPanels } from './panels.js?v=f8371c6';
+import { startSpin, stopReel, pressReel, setHeld, canHold, isSpinning, allStopped, canEdit, canSave, autoStopDelays, restore } from './machine.js?v=f8371c6';
+import { hasCombo, isActive, toggleRating, viewHits } from './hits.js?v=f8371c6';
+import { buildIndex, searchWords } from './search.js?v=f8371c6';
+import { indexGraph, themeWords } from './theme.js?v=f8371c6';
+import { createStore } from './store.js?v=f8371c6';
+import { createUndo, snapOf } from './undo.js?v=f8371c6';
+import { createCabinet } from './cabinet.js?v=f8371c6';
+import { initialPile } from './coins.js?v=f8371c6';
+import { createSound } from './sound.js?v=f8371c6';
+import { createOverlay } from './reels.js?v=f8371c6';
+import { initScreens } from './screens.js?v=f8371c6';
+import { initThemeScreen } from './themescreen.js?v=f8371c6';
+import { initShareScreen } from './sharescreen.js?v=f8371c6';
+import { codeFromHash } from './share.js?v=f8371c6';
+import { effectiveWidth, fitWidth, widthAt, W_MIN, maxReels } from './layout.js?v=f8371c6';
+import { initGrips } from './grips.js?v=f8371c6';
+import { initTypePanel } from './typepanel.js?v=f8371c6';
+import { initHelp } from './help.js?v=f8371c6';
+import { activeActions, canonCode, keyHelp } from './keys.js?v=f8371c6';
+import { applySlots } from './templates.js?v=f8371c6';
+import { initKeyScreen } from './keyscreen.js?v=f8371c6';
+import { initTemplateScreen } from './tplscreen.js?v=f8371c6';
+import { createDefs } from './defs.js?v=f8371c6';
+import { createTip } from './tip.js?v=f8371c6';
+import { createTour } from './tour.js?v=f8371c6';
+import { registerSw } from './pwa.js?v=f8371c6';
+import { createBoot } from './boot.js?v=f8371c6';
+import { initAbout } from './about.js?v=f8371c6';
+import { DEMO_SCRIPT, DEMO_WORDS, DEMO_TYPES, LEVER_RAMP_MS, SWEEP_MS, modeOf, sweepAt } from './demo.js?v=f8371c6';
 
 // 保存済みの WordNet テーマ（設定の slots[].theme）を読み込むかのスイッチ。false の間は読み込まない（保存データからは消さない）
 const THEMES_ON = false;
@@ -88,7 +88,7 @@ function rebuildPools() {
 }
 const say = text => view.say(text);
 const rnd = type => pickWord(pools, type, new Set(), Math.random) ?? '';
-const loadGraph = () => (graphP ??= fetch('data/graph.json?v=8dd921f', { signal: AbortSignal.timeout?.(15000) })
+const loadGraph = () => (graphP ??= fetch('data/graph.json?v=f8371c6', { signal: AbortSignal.timeout?.(15000) })
   .then(r => { if (!r.ok) throw new Error('graph'); return r.json(); })
   .then(indexGraph) // 15秒で打ち切る（signal は本文の読み込みにも効く）
   .catch(e => { graphP = null; throw e; }));
@@ -724,7 +724,7 @@ async function start() {
     count: changeCount,
   });
   // 語の意味: 窓の中央の語と当たり帳の語。PC はマウスを乗せる、スマホは長押し。使う語のファイルだけを読む
-  const defs = createDefs(n => fetch(`data/defs/${n}.json?v=8dd921f`).then(r => { if (!r.ok) throw new Error(n); return r.json(); }), data.games);
+  const defs = createDefs(n => fetch(`data/defs/${n}.json?v=f8371c6`).then(r => { if (!r.ok) throw new Error(n); return r.json(); }), data.games);
   tip = createTip(w => defs.lookup(w), el => {
     if (!el.classList.contains('m')) return el.textContent; // 当たり帳の語
     const r = reels[+el.dataset.w];
@@ -852,6 +852,7 @@ const demoActs = {
   end() { if (mode.loop) playDemo(); },
 };
 function playDemo() {
+  window.__demoT0 = performance.now(); // 動画の撮影（tools/video.mjs）が台本の 0 の瞬間を知る印
   for (const s of DEMO_SCRIPT) setTimeout(() => demoActs[s.act](s), s.at);
 }
 
@@ -865,9 +866,9 @@ async function load() {
   try {
     // 読み込み画面の「n / 6」は、読み終えたファイルの数（boot は全部で 6 つと数える）
     const [words, verbs, genres, tags, games, extra] = await Promise.all([
-      ...['words', 'verbs', 'genres', 'tags', 'games'].map(n => fetch(`data/${n}.json?v=8dd921f`).then(r => { if (!r.ok) throw new Error(n); return r.json(); }).finally(boot.step)),
+      ...['words', 'verbs', 'genres', 'tags', 'games'].map(n => fetch(`data/${n}.json?v=f8371c6`).then(r => { if (!r.ok) throw new Error(n); return r.json(); }).finally(boot.step)),
       // テーマ集は無くても続行（全部空のテーマ）
-      fetch('data/extra.json?v=8dd921f').then(r => (r.ok ? r.json() : {})).catch(() => ({})).finally(boot.step),
+      fetch('data/extra.json?v=f8371c6').then(r => (r.ok ? r.json() : {})).catch(() => ({})).finally(boot.step),
     ]);
     data = { words, verbs, genres, tags, games, extra };
   } catch {

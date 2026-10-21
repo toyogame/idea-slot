@@ -1,4 +1,4 @@
-import { checkedKeys, groupState } from './typekey.js?v=8dd921f';
+import { checkedKeys, groupState } from './typekey.js?v=f8371c6';
 // リールの種類（テーマ）えらびの大きなパネル。DOM だけを扱い、選択の状態は app.js が持つ。
 // toggle(k): 種類 k が押された。toggleGroup(g): 見出し g（typeGroups の要素）のチェックが押された。pickWord(i): 「語を検索してえらぶ」。restore(i): 閉じたあと（ほかのダイアログが無ければ）モニターへフォーカスを戻す
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
