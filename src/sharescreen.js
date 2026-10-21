@@ -1,9 +1,9 @@
 // 共有リンクで届いたテーマ・テンプレートを見せて、「追加する」を押したときだけ保存する（share.js が中身の検証と名前の付け替え）。
 // themesChanged(): 自作テーマが増えたあとの更新、templatesChanged(): テンプレが増えたあとの更新（app.js）
-import { codeFromHash, decodeShare, planImport } from './share.js?v=f8371c6';
-import { describeSlots } from './templates.js?v=f8371c6';
-import { parseType } from './typekey.js?v=f8371c6';
-import { TYPE_LABELS, MY, NG, NG_WARN } from './types.js?v=f8371c6';
+import { codeFromHash, decodeShare, planImport } from './share.js?v=0c31517';
+import { describeSlots } from './templates.js?v=0c31517';
+import { parseType } from './typekey.js?v=0c31517';
+import { TYPE_LABELS, MY, NG, NG_WARN } from './types.js?v=0c31517';
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const SHOW = 200; // 語は先頭だけ見せる

@@ -1,37 +1,37 @@
-import { TYPE_LABELS, TYPE_KEYS, MY, NG, NG_WARN, typeGroups } from './types.js?v=f8371c6';
-import { buildPools } from './pools.js?v=f8371c6';
-import { spin, rerollOne, setSlotType, resizeSlots, pickWord } from './pick.js?v=f8371c6';
-import { parseType, toggleType, toggleGroup, normalizeType, remapType } from './typekey.js?v=f8371c6';
-import { initPanels } from './panels.js?v=f8371c6';
-import { startSpin, stopReel, pressReel, setHeld, canHold, isSpinning, allStopped, canEdit, canSave, autoStopDelays, restore } from './machine.js?v=f8371c6';
-import { hasCombo, isActive, toggleRating, viewHits } from './hits.js?v=f8371c6';
-import { buildIndex, searchWords } from './search.js?v=f8371c6';
-import { indexGraph, themeWords } from './theme.js?v=f8371c6';
-import { createStore } from './store.js?v=f8371c6';
-import { createUndo, snapOf } from './undo.js?v=f8371c6';
-import { createCabinet } from './cabinet.js?v=f8371c6';
-import { initialPile } from './coins.js?v=f8371c6';
-import { createSound } from './sound.js?v=f8371c6';
-import { createOverlay } from './reels.js?v=f8371c6';
-import { initScreens } from './screens.js?v=f8371c6';
-import { initThemeScreen } from './themescreen.js?v=f8371c6';
-import { initShareScreen } from './sharescreen.js?v=f8371c6';
-import { codeFromHash } from './share.js?v=f8371c6';
-import { effectiveWidth, fitWidth, widthAt, W_MIN, maxReels } from './layout.js?v=f8371c6';
-import { initGrips } from './grips.js?v=f8371c6';
-import { initTypePanel } from './typepanel.js?v=f8371c6';
-import { initHelp } from './help.js?v=f8371c6';
-import { activeActions, canonCode, keyHelp } from './keys.js?v=f8371c6';
-import { applySlots } from './templates.js?v=f8371c6';
-import { initKeyScreen } from './keyscreen.js?v=f8371c6';
-import { initTemplateScreen } from './tplscreen.js?v=f8371c6';
-import { createDefs } from './defs.js?v=f8371c6';
-import { createTip } from './tip.js?v=f8371c6';
-import { createTour } from './tour.js?v=f8371c6';
-import { registerSw } from './pwa.js?v=f8371c6';
-import { createBoot } from './boot.js?v=f8371c6';
-import { initAbout } from './about.js?v=f8371c6';
-import { DEMO_SCRIPT, DEMO_WORDS, DEMO_TYPES, LEVER_RAMP_MS, SWEEP_MS, modeOf, sweepAt } from './demo.js?v=f8371c6';
+import { TYPE_LABELS, TYPE_KEYS, MY, NG, NG_WARN, typeGroups } from './types.js?v=0c31517';
+import { buildPools } from './pools.js?v=0c31517';
+import { spin, rerollOne, setSlotType, resizeSlots, pickWord } from './pick.js?v=0c31517';
+import { parseType, toggleType, toggleGroup, normalizeType, remapType } from './typekey.js?v=0c31517';
+import { initPanels } from './panels.js?v=0c31517';
+import { startSpin, stopReel, pressReel, setHeld, canHold, isSpinning, allStopped, canEdit, canSave, autoStopDelays, restore } from './machine.js?v=0c31517';
+import { hasCombo, isActive, toggleRating, viewHits } from './hits.js?v=0c31517';
+import { buildIndex, searchWords } from './search.js?v=0c31517';
+import { indexGraph, themeWords } from './theme.js?v=0c31517';
+import { createStore } from './store.js?v=0c31517';
+import { createUndo, snapOf } from './undo.js?v=0c31517';
+import { createCabinet } from './cabinet.js?v=0c31517';
+import { initialPile } from './coins.js?v=0c31517';
+import { createSound } from './sound.js?v=0c31517';
+import { createOverlay } from './reels.js?v=0c31517';
+import { initScreens } from './screens.js?v=0c31517';
+import { initThemeScreen } from './themescreen.js?v=0c31517';
+import { initShareScreen } from './sharescreen.js?v=0c31517';
+import { codeFromHash } from './share.js?v=0c31517';
+import { effectiveWidth, fitWidth, widthAt, W_MIN, maxReels } from './layout.js?v=0c31517';
+import { initGrips } from './grips.js?v=0c31517';
+import { initTypePanel } from './typepanel.js?v=0c31517';
+import { initHelp } from './help.js?v=0c31517';
+import { activeActions, canonCode, keyHelp } from './keys.js?v=0c31517';
+import { applySlots } from './templates.js?v=0c31517';
+import { initKeyScreen } from './keyscreen.js?v=0c31517';
+import { initTemplateScreen } from './tplscreen.js?v=0c31517';
+import { createDefs } from './defs.js?v=0c31517';
+import { createTip } from './tip.js?v=0c31517';
+import { createTour } from './tour.js?v=0c31517';
+import { registerSw } from './pwa.js?v=0c31517';
+import { createBoot } from './boot.js?v=0c31517';
+import { initAbout } from './about.js?v=0c31517';
+import { DEMO_SCRIPT, DEMO_WORDS, DEMO_TYPES, LEVER_RAMP_MS, SWEEP_MS, TAP_MS, modeOf, sweepAt, startOf } from './demo.js?v=0c31517';
 
 // 保存済みの WordNet テーマ（設定の slots[].theme）を読み込むかのスイッチ。false の間は読み込まない（保存データからは消さない）
 const THEMES_ON = false;
@@ -48,7 +48,7 @@ if (scripted) {
 if (mode.shot) document.body.classList.add('shot'); // 部品を隠す（style.css）。筐体の幅を決める前に付ける
 const boot = createBoot(document.getElementById('boot'), 6);
 const { state } = store;
-const sound = createSound();
+const sound = createSound(scripted ? name => (window.__soundLog ??= []).push([name, performance.now()]) : undefined); // ?demo: 鳴らした音を記録（動画の音声用。tools/video.mjs が読む）
 const undo = createUndo(); // 止まったときの結果の履歴（Ctrl+Z / Ctrl+Y）
 const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
 const $ = id => document.getElementById(id);
@@ -88,7 +88,7 @@ function rebuildPools() {
 }
 const say = text => view.say(text);
 const rnd = type => pickWord(pools, type, new Set(), Math.random) ?? '';
-const loadGraph = () => (graphP ??= fetch('data/graph.json?v=f8371c6', { signal: AbortSignal.timeout?.(15000) })
+const loadGraph = () => (graphP ??= fetch('data/graph.json?v=0c31517', { signal: AbortSignal.timeout?.(15000) })
   .then(r => { if (!r.ok) throw new Error('graph'); return r.json(); })
   .then(indexGraph) // 15秒で打ち切る（signal は本文の読み込みにも効く）
   .catch(e => { graphP = null; throw e; }));
@@ -724,7 +724,7 @@ async function start() {
     count: changeCount,
   });
   // 語の意味: 窓の中央の語と当たり帳の語。PC はマウスを乗せる、スマホは長押し。使う語のファイルだけを読む
-  const defs = createDefs(n => fetch(`data/defs/${n}.json?v=f8371c6`).then(r => { if (!r.ok) throw new Error(n); return r.json(); }), data.games);
+  const defs = createDefs(n => fetch(`data/defs/${n}.json?v=0c31517`).then(r => { if (!r.ok) throw new Error(n); return r.json(); }), data.games);
   tip = createTip(w => defs.lookup(w), el => {
     if (!el.classList.contains('m')) return el.textContent; // 当たり帳の語
     const r = reels[+el.dataset.w];
@@ -809,15 +809,38 @@ function shoot() {
 }
 
 // --- ?demo: 台本（demo.js）どおりに1回演じる。?demo&loop は繰り返す ---
+// 指の印（タッチ表示）。popover なので、開いている dialog の上にも出る
+function finger() {
+  const el = document.body.appendChild(Object.assign(document.createElement('div'), { className: 'demo-finger', popover: 'manual' }));
+  el.showPopover();
+  return el;
+}
+// 指が sel の要素へ動き、押して（縮む）、本物のクリックをする。dialog の中の長い一覧は、見える所まで送る
+function tap(sel) {
+  const el = document.querySelector(sel);
+  if (!el) return;
+  el.scrollIntoView({ block: 'nearest' });
+  const r = el.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2, f = finger();
+  f.style.cssText = `left:${x + 70}px;top:${y + 50}px;opacity:0;transition:none`;
+  void f.offsetWidth;
+  f.style.cssText = `left:${x}px;top:${y}px`;
+  setTimeout(() => f.classList.add('tap'), TAP_MS - 150);
+  setTimeout(() => el.click(), TAP_MS);
+  setTimeout(() => f.remove(), TAP_MS + 300);
+}
 const demoActs = {
   reset() {
+    panels.closeAll(false);
+    typePanel.close();
     state.favorites = [];
+    state.settings.slots = DEMO_TYPES.map(type => ({ type }));
     cab.setPile([]);
+    setReels(initialReels());
     renderHits();
     sync();
   },
-  // レバーを下まで引いて（引く動きが見える）、離すと回り始める。止まる語は決まった組み合わせにする
-  lever() {
+  // レバーを下まで引いて（引く動きが見える）、離すと回り始める。止まる語は words にする
+  lever({ words }) {
     const t0 = performance.now();
     const id = setInterval(() => {
       const a = Math.min(1, (performance.now() - t0) / LEVER_RAMP_MS);
@@ -826,17 +849,18 @@ const demoActs = {
       clearInterval(id);
       cab.setLever(0);
       pull();
-      reels = reels.map((r, i) => (r.running ? { ...r, target: DEMO_WORDS[i] } : r));
+      reels = reels.map((r, i) => (r.running ? { ...r, target: words[i] } : r));
     }, 16);
   },
   stop: ({ reel }) => press(reel),
-  idea,
+  tap: ({ sel }) => tap(sel),
   // 指の印を出して、受け皿のコインをなぞる（本物のポインタ操作を cabinet.js に送る）
   sweep() {
-    const cv = $('cv'), finger = document.body.appendChild(Object.assign(document.createElement('div'), { className: 'demo-finger' }));
+    const cv = $('cv'), f = finger();
+    f.style.transition = 'none';
     const t0 = performance.now(), fire = (type, p) => {
       const r = cv.getBoundingClientRect(), x = r.left + p.x / cabW * r.width, y = r.top + p.y / 190 * r.height;
-      finger.style.cssText = `left:${x}px;top:${y}px`;
+      f.style.cssText = `left:${x}px;top:${y}px;transition:none`;
       cv.dispatchEvent(new PointerEvent(type, { clientX: x, clientY: y, button: 0, buttons: type === 'pointerup' ? 0 : 1, pointerType: 'touch', bubbles: true }));
     };
     fire('pointerdown', sweepAt(0, cabW));
@@ -846,14 +870,14 @@ const demoActs = {
       if (a < 1) return;
       clearInterval(id);
       fire('pointerup', p);
-      finger.remove();
+      f.remove();
     }, 16);
   },
   end() { if (mode.loop) playDemo(); },
 };
 function playDemo() {
   window.__demoT0 = performance.now(); // 動画の撮影（tools/video.mjs）が台本の 0 の瞬間を知る印
-  for (const s of DEMO_SCRIPT) setTimeout(() => demoActs[s.act](s), s.at);
+  for (const s of DEMO_SCRIPT) setTimeout(() => demoActs[s.act](s), startOf(s));
 }
 
 function fail() {
@@ -866,9 +890,9 @@ async function load() {
   try {
     // 読み込み画面の「n / 6」は、読み終えたファイルの数（boot は全部で 6 つと数える）
     const [words, verbs, genres, tags, games, extra] = await Promise.all([
-      ...['words', 'verbs', 'genres', 'tags', 'games'].map(n => fetch(`data/${n}.json?v=f8371c6`).then(r => { if (!r.ok) throw new Error(n); return r.json(); }).finally(boot.step)),
+      ...['words', 'verbs', 'genres', 'tags', 'games'].map(n => fetch(`data/${n}.json?v=0c31517`).then(r => { if (!r.ok) throw new Error(n); return r.json(); }).finally(boot.step)),
       // テーマ集は無くても続行（全部空のテーマ）
-      fetch('data/extra.json?v=f8371c6').then(r => (r.ok ? r.json() : {})).catch(() => ({})).finally(boot.step),
+      fetch('data/extra.json?v=0c31517').then(r => (r.ok ? r.json() : {})).catch(() => ({})).finally(boot.step),
     ]);
     data = { words, verbs, genres, tags, games, extra };
   } catch {
