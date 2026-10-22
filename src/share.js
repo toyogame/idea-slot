@@ -1,9 +1,9 @@
 // 共有リンク（DOM なし）。テーマ・テンプレートを JSON → 圧縮 → base64url にして URL の # に載せる（サーバーなし）。
 // 形: { t: 'theme', themes: [{name, words}] } / { t: 'tpl', template: {name, slots}, themes: [...] }（themes はテンプレが使う自作テーマ）
-import { cleanTheme } from './store.js?v=d268172';
-import { cleanTemplate } from './templates.js?v=d268172';
-import { parseType, buildType } from './typekey.js?v=d268172';
-import { MY } from './types.js?v=d268172';
+import { cleanTheme } from './store.js?v=98b2cca';
+import { cleanTemplate } from './templates.js?v=98b2cca';
+import { parseType, buildType } from './typekey.js?v=98b2cca';
+import { MY } from './types.js?v=98b2cca';
 
 const MAX_THEMES = 20, MAX_JSON = 1 << 20; // 受け取る量の上限（展開後の JSON は約 1MB まで）
 const URL_WARN = 8000; // これより長いリンクはアプリによって途中で切れる
