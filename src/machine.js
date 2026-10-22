@@ -1,4 +1,4 @@
-import { spin, rerollOne, resizeSlots } from './pick.js?v=98b2cca';
+import { spin, rerollOne, resizeSlots } from './pick.js?v=c77c1a6';
 
 // 止まった直後にロックを誤操作しないための待ち時間
 export const LOCK_GUARD_MS = 300;

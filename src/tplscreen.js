@@ -2,8 +2,8 @@
 // 並べ替え・検証は templates.js の純粋関数。current(): 今の構成 [{type}]、label(type): 種類の表示名、use(t): 適用して振り直す（できたら true）、count(n): 件数のバッジ
 // copy(text): 共有リンクのコピー（できたら true）。
 // 返す render() は全体の描き直し（保存データが入れ替わったとき）、refresh() は構成の表示だけの更新（入力中の名前を壊さない）
-import { describeSlots, addTemplate, replaceTemplate, removeTemplate } from './templates.js?v=98b2cca';
-import { linkInfo, templatePayload } from './share.js?v=98b2cca';
+import { describeSlots, addTemplate, replaceTemplate, removeTemplate } from './templates.js?v=c77c1a6';
+import { linkInfo, templatePayload } from './share.js?v=c77c1a6';
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
