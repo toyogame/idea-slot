@@ -1,8 +1,8 @@
 // localStorage persistence (DOM-free). `storage` has getItem/setItem, or is null for memory-only.
-import { DEFAULT_KEYS, DEFAULT_DETAIL, normalizeKeys, normalizeDetailKeys } from './keys.js?v=ce528d0';
-import { cleanTemplate } from './templates.js?v=ce528d0';
-import { cleanRating } from './hits.js?v=ce528d0';
-import { MAX_H } from './coins.js?v=ce528d0';
+import { DEFAULT_KEYS, DEFAULT_DETAIL, normalizeKeys, normalizeDetailKeys } from './keys.js?v=04ee70f';
+import { cleanTemplate } from './templates.js?v=04ee70f';
+import { cleanRating } from './hits.js?v=04ee70f';
+import { MAX_H } from './coins.js?v=04ee70f';
 
 const KEYS = ['settings', 'history', 'favorites', 'custom', 'excluded', 'stats', 'themes', 'templates'];
 const HISTORY_MAX = 100;
